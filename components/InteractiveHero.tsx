@@ -66,9 +66,30 @@ export default function InteractiveHero() {
       <style jsx>{`
         .reference-hero{position:relative;min-height:780px;height:min(900px,100vh);overflow:hidden;isolation:isolate;background:#030a0f;color:#f8f5ef}
         .reference-hero__image,.reference-hero__shade,.reference-hero__blueGlow,.reference-hero__grain{position:absolute;inset:0;pointer-events:none}
-        .reference-hero__image{z-index:-5;left:0;right:0;width:100%;height:100%;background-repeat:no-repeat;background-size:cover;background-position:72% 42%;filter:saturate(.62) contrast(1.08) brightness(.62);transform:scale(1.005);transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
-        .reference-hero:hover .reference-hero__image{transform:scale(1.025)}
-        .reference-hero__shade{z-index:-4;background:linear-gradient(90deg,rgba(3,10,15,.99) 0%,rgba(3,10,15,.96) 18%,rgba(3,10,15,.82) 34%,rgba(3,10,15,.46) 52%,rgba(3,10,15,.12) 72%,rgba(3,10,15,.32) 100%),linear-gradient(0deg,rgba(3,10,15,.94) 0%,rgba(3,10,15,.14) 43%,rgba(3,10,15,.34) 100%)}
+
+        /* Keep the complete architectural frame visible. The previous cover rule
+           enlarged the source until its top/bottom edges were cropped. The reference
+           composition uses the building as a contained cinematic panel on the right. */
+        .reference-hero__image{
+          z-index:-5;
+          left:auto;
+          right:0;
+          top:0;
+          bottom:0;
+          width:100%;
+          height:100%;
+          background-repeat:no-repeat;
+          background-size:auto 100%;
+          background-position:right center;
+          background-color:#030a0f;
+          filter:saturate(.62) contrast(1.08) brightness(.62);
+          transform:scale(1);
+          transform-origin:center right;
+          transition:transform 1.2s cubic-bezier(.2,.7,.2,1);
+        }
+        .reference-hero:hover .reference-hero__image{transform:scale(1.012)}
+
+        .reference-hero__shade{z-index:-4;background:linear-gradient(90deg,rgba(3,10,15,1) 0%,rgba(3,10,15,.985) 15%,rgba(3,10,15,.88) 30%,rgba(3,10,15,.55) 47%,rgba(3,10,15,.18) 67%,rgba(3,10,15,.28) 100%),linear-gradient(0deg,rgba(3,10,15,.9) 0%,rgba(3,10,15,.08) 44%,rgba(3,10,15,.28) 100%)}
         .reference-hero__blueGlow{z-index:-3;background:radial-gradient(circle at 89% 36%,rgba(42,78,255,.38),transparent 27%),radial-gradient(circle at 72% 70%,rgba(214,161,78,.11),transparent 25%);mix-blend-mode:screen}
         .reference-hero__grain{z-index:-2;opacity:.045;background-image:radial-gradient(rgba(255,255,255,.8) .5px,transparent .7px);background-size:5px 5px;mix-blend-mode:soft-light}
         .reference-hero__inner{position:relative;z-index:2;min-height:calc(100% - 150px);display:flex;align-items:center}
@@ -85,8 +106,29 @@ export default function InteractiveHero() {
         .reference-hero__rail{position:absolute;left:max(18px,calc((100vw - 1240px)/2 - 28px));top:32%;z-index:4;display:flex;flex-direction:column;align-items:center;gap:10px;color:#dedbd4;font-size:10px;letter-spacing:.12em}.reference-hero__rail i{width:1px;height:52px;background:rgba(255,255,255,.22)}.reference-hero__rail b{width:3px;height:24px;border-radius:3px;background:#d9a65f}
         .reference-hero__stats{position:absolute;z-index:5;left:50%;bottom:34px;transform:translateX(-50%);display:grid;grid-template-columns:repeat(4,1fr);width:min(920px,calc(100% - 48px));padding:18px;border:1px solid rgba(255,255,255,.15);border-radius:20px;background:rgba(3,12,17,.72);backdrop-filter:blur(18px);box-shadow:0 24px 70px rgba(0,0,0,.35)}.reference-hero__stats>div{display:flex;align-items:center;gap:14px;padding:4px 20px;border-right:1px solid rgba(255,255,255,.12)}.reference-hero__stats>div:last-child{border-right:0}.reference-hero__stats strong{color:#f4ede2;font-family:Georgia,"Times New Roman",serif;font-size:25px;font-weight:400;white-space:nowrap}.reference-hero__stats span{color:#b7b5ae;font-size:9px;line-height:1.45;letter-spacing:.07em;text-transform:uppercase}
         .reference-hero__location{position:absolute;right:34px;bottom:22px;z-index:5;display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.5);font-size:8px;letter-spacing:.2em}.reference-hero__location i{width:22px;height:1px;background:rgba(217,166,95,.6)}
-        @media(max-width:900px){.reference-hero{min-height:820px;height:auto;padding:125px 0 190px}.reference-hero__image{background-position:70% 38%}.reference-hero__inner{min-height:610px;align-items:flex-start}.reference-hero__copy{width:100%;padding-top:20px}.reference-hero__visual{width:62%;height:42%;top:39%;right:-8%;opacity:.82}.reference-hero__stats{grid-template-columns:repeat(2,1fr);bottom:24px;width:calc(100% - 32px)}.reference-hero__stats>div{padding:10px 12px}.reference-hero__stats>div:nth-child(2){border-right:0}.reference-hero__location{display:none}}
-        @media(max-width:600px){.reference-hero{min-height:900px}.reference-hero__image{background-position:68% 34%;filter:saturate(.58) contrast(1.05) brightness(.52)}.reference-hero h1{font-size:clamp(50px,14vw,68px);line-height:.94}.reference-hero__copy>p{font-size:14px;max-width:92%}.reference-hero__visual{width:78%;height:38%;top:44%;right:-16%;opacity:.72}.reference-hero__stats{grid-template-columns:1fr 1fr;padding:10px;border-radius:16px}.reference-hero__stats>div{gap:8px;padding:9px 7px}.reference-hero__stats strong{font-size:20px}.reference-hero__stats span{font-size:7px}.reference-hero__rail{display:none}}
+
+        @media(max-width:1200px){
+          .reference-hero__image{background-size:auto 100%;background-position:right center}
+          .reference-hero__copy{width:min(610px,58vw)}
+        }
+        @media(max-width:900px){
+          .reference-hero{min-height:820px;height:auto;padding:125px 0 190px}
+          .reference-hero__image{background-size:auto 100%;background-position:78% center}
+          .reference-hero__inner{min-height:610px;align-items:flex-start}
+          .reference-hero__copy{width:100%;padding-top:20px}
+          .reference-hero__visual{width:62%;height:42%;top:39%;right:-8%;opacity:.82}
+          .reference-hero__stats{grid-template-columns:repeat(2,1fr);bottom:24px;width:calc(100% - 32px)}
+          .reference-hero__stats>div{padding:10px 12px}.reference-hero__stats>div:nth-child(2){border-right:0}.reference-hero__location{display:none}
+        }
+        @media(max-width:600px){
+          .reference-hero{min-height:900px}
+          .reference-hero__image{background-size:auto 100%;background-position:72% center;filter:saturate(.58) contrast(1.05) brightness(.52)}
+          .reference-hero h1{font-size:clamp(50px,14vw,68px);line-height:.94}
+          .reference-hero__copy>p{font-size:14px;max-width:92%}
+          .reference-hero__visual{width:78%;height:38%;top:44%;right:-16%;opacity:.72}
+          .reference-hero__stats{grid-template-columns:1fr 1fr;padding:10px;border-radius:16px}
+          .reference-hero__stats>div{gap:8px;padding:9px 7px}.reference-hero__stats strong{font-size:20px}.reference-hero__stats span{font-size:7px}.reference-hero__rail{display:none}
+        }
         @media(prefers-reduced-motion:reduce){.reference-hero__image,.reference-hero__visual{transition:none}}
       `}</style>
     </section>
