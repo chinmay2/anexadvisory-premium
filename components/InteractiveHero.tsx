@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { PointerEvent, useRef } from "react";
 
-// Premium architectural hero: curved glass facade at blue hour, selected to match
-// the ANEX reference direction of dark architecture, warm interiors and reflection.
+// Reference-led hero: illuminated curved commercial architecture at dusk,
+// with a dark editorial treatment so the ANEX message remains dominant.
 const heroImage =
-  "https://images.unsplash.com/photo-1783947325353-841655b6e8f8?auto=format&fit=crop&fm=jpg&q=88&w=3000";
+  "https://images.unsplash.com/photo-1758939563815-208625d3e7ee?auto=format&fit=crop&fm=jpg&q=88&w=3000";
 
 export default function InteractiveHero() {
   const scene = useRef<HTMLDivElement>(null);
@@ -35,7 +35,7 @@ export default function InteractiveHero() {
       <Image
         className="hero-media"
         src={heroImage}
-        alt="Modern curved glass commercial building at blue hour"
+        alt="Illuminated curved modern commercial building at dusk"
         fill
         priority
         sizes="100vw"
