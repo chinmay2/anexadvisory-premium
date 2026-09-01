@@ -4,15 +4,13 @@ import ProjectCard from "@/components/ProjectCard";
 import InteractiveHero from "@/components/InteractiveHero";
 
 const imgs = {
-  // Service imagery aligned to the supplied ANEX reference:
-  // curved glass architecture at dusk, monochrome vertical redevelopment,
-  // and a moody premium interior with a floor lamp.
+  // Reference-aligned service imagery: architecture, redevelopment and premium interior.
   capital:
-    "https://images.unsplash.com/photo-1758939563815-208625d3e7ee?auto=format&fit=crop&fm=jpg&q=85&w=1600",
+    "https://images.pexels.com/photos/28589265/pexels-photo-28589265.jpeg?auto=compress&fit=crop&w=1600&v=2",
   redevelopment:
-    "https://images.unsplash.com/photo-1766721880398-fd64eb660164?auto=format&fit=crop&fm=jpg&q=85&w=1600",
+    "https://images.pexels.com/photos/9370034/pexels-photo-9370034.jpeg?auto=compress&fit=crop&w=1600&v=2",
   sales:
-    "https://images.unsplash.com/photo-1678705426256-aa9765468937?auto=format&fit=crop&fm=jpg&q=85&w=1600",
+    "https://images.pexels.com/photos/22431067/pexels-photo-22431067.jpeg?auto=compress&fit=crop&w=1600&v=2",
 };
 
 const projects = [
