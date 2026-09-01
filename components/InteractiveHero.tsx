@@ -4,8 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { PointerEvent, useRef } from "react";
 
+// Premium architectural hero: curved glass facade at blue hour, selected to match
+// the ANEX reference direction of dark architecture, warm interiors and reflection.
 const heroImage =
-  "https://framerusercontent.com/images/0Ue86UX5iZmFiPAyhnml9yaJ0B0.jpg?scale-down-to=4096";
+  "https://images.unsplash.com/photo-1783947325353-841655b6e8f8?auto=format&fit=crop&fm=jpg&q=88&w=3000";
 
 export default function InteractiveHero() {
   const scene = useRef<HTMLDivElement>(null);
@@ -30,20 +32,34 @@ export default function InteractiveHero() {
 
   return (
     <section className="hero premium-hero" onPointerMove={move} onPointerLeave={leave}>
-      <Image className="hero-media" src={heroImage} alt="ANEX Advisory real estate project" fill priority sizes="100vw" />
+      <Image
+        className="hero-media"
+        src={heroImage}
+        alt="Modern curved glass commercial building at blue hour"
+        fill
+        priority
+        sizes="100vw"
+      />
       <div className="hero-overlay" />
+      <div className="hero-vignette" />
       <div className="hero-grain" />
 
       <div className="container hero-content">
         <div className="hero-copy-wrap">
           <div className="eyebrow gold">ANEX ADVISORY · REAL ESTATE INTELLIGENCE</div>
-          <h1>Advisory for decisions that <em>shape what comes next.</em></h1>
+          <h1>
+            Advisory for decisions that <em>shape what comes next.</em>
+          </h1>
           <p className="hero-copy">
             Strategic advisory and project intelligence for developers, investors and societies — bringing clarity to complex opportunities, investments and growth.
           </p>
           <div className="actions">
-            <Link className="btn primary gold-btn" href="/contact">Start a conversation <span>↗</span></Link>
-            <Link className="btn ghost-btn" href="/projects">Explore our work <span>↗</span></Link>
+            <Link className="btn primary gold-btn" href="/contact">
+              Start a conversation <span>↗</span>
+            </Link>
+            <Link className="btn ghost-btn" href="/projects">
+              Explore our work <span>↗</span>
+            </Link>
           </div>
         </div>
 
