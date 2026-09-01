@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { PointerEvent, useRef } from "react";
 
-// Warm architectural image treatment to match the supplied ANEX reference:
-// deep charcoal/black left side, warm dusk building, restrained blue only at the far edge.
+// Cool editorial architectural treatment to match the supplied ANEX reference.
 const heroImage = "https://images.pexels.com/photos/28589265/pexels-photo-28589265.jpeg?auto=compress&cs=tinysrgb&w=2400";
 
 export default function InteractiveHero() {
@@ -79,56 +78,57 @@ export default function InteractiveHero() {
           position:absolute;inset:0;pointer-events:none;
         }
 
-        /* The reference uses a visible warm dusk building rather than the previous cold/blue treatment. */
+        /* Reference grade: cool midnight/steel architecture, not the previous brown/sepia cast. */
         .reference-hero__image{
           z-index:-5;
           background-repeat:no-repeat;
           background-size:cover;
           background-position:center center;
           background-color:#020609;
-          filter:saturate(.72) contrast(1.04) brightness(.64) sepia(.13);
+          filter:saturate(.82) contrast(1.06) brightness(.60);
           transform:scale(1.015);
           transform-origin:center center;
           transition:transform 1.2s cubic-bezier(.2,.7,.2,1),filter 1s ease;
         }
         .reference-hero:hover .reference-hero__image{
           transform:scale(1.025);
-          filter:saturate(.76) contrast(1.05) brightness(.68) sepia(.15);
+          filter:saturate(.86) contrast(1.07) brightness(.63);
         }
 
-        /* Deep editorial black on the left; the architecture stays readable on the right. */
+        /* Preserve the very dark left editorial field while keeping the building readable. */
         .reference-hero__shade{
           z-index:-4;
           background:
             linear-gradient(90deg,
-              rgba(1,6,9,.98) 0%,
-              rgba(1,6,9,.94) 18%,
-              rgba(1,6,9,.78) 34%,
-              rgba(1,6,9,.50) 50%,
-              rgba(2,7,10,.25) 66%,
-              rgba(2,7,10,.16) 82%,
-              rgba(2,6,9,.30) 100%),
+              rgba(1,6,9,.99) 0%,
+              rgba(1,6,9,.95) 18%,
+              rgba(1,6,9,.82) 34%,
+              rgba(1,6,9,.55) 50%,
+              rgba(2,7,12,.30) 66%,
+              rgba(4,10,20,.20) 82%,
+              rgba(2,6,14,.28) 100%),
             linear-gradient(180deg,
-              rgba(1,5,8,.58) 0%,
-              rgba(1,6,9,.08) 34%,
-              rgba(1,5,8,.18) 66%,
-              rgba(1,5,8,.72) 100%);
+              rgba(1,5,8,.62) 0%,
+              rgba(1,6,10,.10) 34%,
+              rgba(1,5,9,.16) 66%,
+              rgba(1,5,8,.76) 100%);
         }
 
-        /* Warm architectural glow. No heavy blue wash over the building. */
+        /* Reference has a restrained cobalt-blue wash on the right with small warm architectural highlights. */
         .reference-hero__warmGlow{
           z-index:-3;
           background:
-            radial-gradient(circle at 72% 54%,rgba(226,166,78,.16),transparent 27%),
-            radial-gradient(circle at 84% 58%,rgba(197,132,52,.10),transparent 31%),
-            radial-gradient(circle at 92% 34%,rgba(48,70,125,.13),transparent 28%);
+            radial-gradient(circle at 91% 39%,rgba(31,62,170,.30),transparent 30%),
+            radial-gradient(circle at 84% 55%,rgba(22,46,112,.16),transparent 34%),
+            radial-gradient(circle at 69% 54%,rgba(220,163,76,.075),transparent 23%),
+            linear-gradient(90deg,rgba(0,8,18,0) 48%,rgba(7,20,52,.10) 72%,rgba(15,34,92,.16) 100%);
           mix-blend-mode:screen;
-          opacity:.82;
+          opacity:.92;
         }
 
         .reference-hero__grain{
           z-index:-2;
-          opacity:.025;
+          opacity:.022;
           background-image:radial-gradient(rgba(255,255,255,.8) .5px,transparent .7px);
           background-size:5px 5px;
           mix-blend-mode:soft-light;
@@ -223,7 +223,7 @@ export default function InteractiveHero() {
           width:360px;height:360px;
           right:19%;top:0;
           border-radius:50%;
-          background:radial-gradient(circle,rgba(221,169,91,.13),transparent 68%);
+          background:radial-gradient(circle,rgba(45,70,150,.10),transparent 68%);
           filter:blur(22px);
         }
         .reference-hero__orb{
@@ -321,7 +321,6 @@ export default function InteractiveHero() {
         }
         .reference-hero__location i{width:22px;height:1px;background:rgba(217,166,95,.52)}
 
-        /* Reference header: flat editorial navigation instead of the large floating pill. */
         :global(.premium-nav){
           top:0!important;
           left:0!important;
