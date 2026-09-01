@@ -1,3 +1,47 @@
+"use client";
+
 import Link from "next/link";
-const items=[['Services','/services'],['Projects','/projects'],['About','/about'],['Locations','/locations'],['Contact','/contact']];
-export default function SiteNav(){return <header className="nav"><Link className="brand" href="/">ANEX<span style={{fontWeight:400}}> ADVISORY</span></Link><nav className="navlinks">{items.map(([label,href])=><Link key={href} href={href}>{label}</Link>)}</nav><Link className="navcta" href="/contact">Start a conversation ↗</Link><span className="mobile-menu">☰</span></header>}
+import { usePathname } from "next/navigation";
+
+const items = [
+  ["Services", "/services"],
+  ["Projects", "/projects"],
+  ["Locations", "/locations"],
+  ["About us", "/about"],
+  ["Insights", "/insights"],
+];
+
+export default function SiteNav() {
+  const pathname = usePathname();
+
+  return (
+    <header className="nav premium-nav">
+      <Link className="brand brand-mark" href="/" aria-label="ANEX Advisory home">
+        <span className="brand-symbol" aria-hidden="true">A</span>
+        <span className="brand-copy">
+          <strong>ANEX</strong>
+          <small>ADVISORY</small>
+        </span>
+      </Link>
+
+      <nav className="navlinks" aria-label="Primary navigation">
+        <Link className={pathname === "/" ? "active" : ""} href="/">Home</Link>
+        {items.map(([label, href]) => (
+          <Link
+            key={href}
+            className={pathname.startsWith(href) ? "active" : ""}
+            href={href}
+          >
+            {label}
+          </Link>
+        ))}
+      </nav>
+
+      <Link className="navcta premium-outline" href="/contact">
+        Let&apos;s connect <span>→</span>
+      </Link>
+
+      <Link className="mobile-menu" href="/contact" aria-label="Contact ANEX">↗</Link>
+    </header>
+  );
+}
