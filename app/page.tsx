@@ -4,13 +4,14 @@ import ProjectCard from "@/components/ProjectCard";
 import InteractiveHero from "@/components/InteractiveHero";
 
 const imgs = {
-  // Reference-aligned service imagery: architecture, redevelopment and premium interior.
+  // Closer to the supplied ANEX reference: curved glass dusk facade,
+  // monochrome upward-looking towers, and warm premium interior.
   capital:
-    "https://images.pexels.com/photos/28589265/pexels-photo-28589265.jpeg?auto=compress&fit=crop&w=1600&v=2",
+    "https://images.unsplash.com/photo-1758939563815-208625d3e7ee?auto=format&fit=crop&fm=jpg&q=85&w=1600",
   redevelopment:
-    "https://images.pexels.com/photos/9370034/pexels-photo-9370034.jpeg?auto=compress&fit=crop&w=1600&v=2",
+    "https://images.unsplash.com/photo-1766721880398-fd64eb660164?auto=format&fit=crop&fm=jpg&q=85&w=1600",
   sales:
-    "https://images.pexels.com/photos/22431067/pexels-photo-22431067.jpeg?auto=compress&fit=crop&w=1600&v=2",
+    "https://images.unsplash.com/photo-1678705426256-aa9765468937?auto=format&fit=crop&fm=jpg&q=85&w=1600",
 };
 
 const projects = [
@@ -26,7 +27,6 @@ export default function Home() {
   return (
     <main className="home-shell">
       <InteractiveHero />
-
       <section className="section services-section">
         <div className="container">
           <div className="section-head editorial-head">
@@ -39,7 +39,6 @@ export default function Home() {
               <Link className="text-link" href="/services">View all services <span>→</span></Link>
             </div>
           </div>
-
           <div className="service-grid-premium">
             <ServiceCard title="Capital Markets" description="Strategic advisory for land transactions, finance structuring, JV/JDA/DM and strategic liaison services." href="/services/capital-markets" image={imgs.capital} tone="black" tag="01" />
             <ServiceCard title="Redevelopment" description="Comprehensive redevelopment solutions from assessment to design, documentation and delivery." href="/services/redevelopment" image={imgs.redevelopment} tone="blue" tag="02" />
@@ -47,7 +46,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       <section className="dark-band">
         <div className="container experience-grid">
           <div>
@@ -64,7 +62,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       <section className="section projects-section">
         <div className="container">
           <div className="project-heading-row">
@@ -81,7 +78,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       <section className="section contact-section">
         <div className="container">
           <div className="cta premium-cta">
