@@ -13,12 +13,12 @@ const imgs = {
 };
 
 const projects = [
-  ["Tarcione Paradise Plus", "Commercial", "Mumbai", "https://framerusercontent.com/images/3SmDDY7hW3LHWomF3ip2owA48.jpg?scale-down-to=512"],
-  ["Invyra", "Residential", "Mumbai", "https://framerusercontent.com/images/JUodshYxl4a1hHiZz9x3wncZtYw.png?scale-down-to=1024"],
-  ["Kalpataru Magnus", "Residential", "Mumbai", "https://framerusercontent.com/images/0Ue86UX5iZmFiPAyhnml9yaJ0B0.jpg?scale-down-to=4096"],
-  ["Runwal Timeless", "Residential", "Mumbai", "https://framerusercontent.com/images/EqRcBtYPiG0RO0VKe4hU6uJSiKY.png?scale-down-to=1024"],
-  ["Runwal Central Park", "Residential", "Mumbai", "https://framerusercontent.com/images/3SmDDY7hW3LHWomF3ip2owA48.jpg?scale-down-to=512"],
-  ["The Residency", "Commercial", "MMR", "https://framerusercontent.com/images/0Ue86UX5iZmFiPAyhnml9yaJ0B0.jpg?scale-down-to=4096"],
+  ["Tarcione Paradise Plus", "Commercial", "Mumbai", "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=85"],
+  ["Invyra", "Residential", "Mumbai", "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=85"],
+  ["Kalpataru Magnus", "Residential", "Mumbai", "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1600&q=85"],
+  ["Runwal Timeless", "Residential", "Mumbai", "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=85"],
+  ["Runwal Central Park", "Residential", "Mumbai", "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1600&q=85"],
+  ["The Residency", "Commercial", "MMR", "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=85"],
 ];
 
 export default function Home() {
