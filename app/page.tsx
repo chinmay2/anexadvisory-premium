@@ -39,6 +39,12 @@ export default function Home() {
             </div>
           </div>
 
+          <style>{`
+            .service-grid-premium .service-card.black { --card-image: url("${imgs.capital}") !important; }
+            .service-grid-premium .service-card.blue { --card-image: url("${imgs.redevelopment}") !important; }
+            .service-grid-premium .service-card.cobalt { --card-image: url("${imgs.sales}") !important; }
+          `}</style>
+
           <div className="service-grid-premium">
             <ServiceCard title="Capital Markets" description="Strategic advisory for land transactions, finance structuring, JV/JDA/DM and strategic liaison services." href="/services/capital-markets" image={imgs.capital} tone="black" tag="01" />
             <ServiceCard title="Redevelopment" description="Comprehensive redevelopment solutions from assessment to design, documentation and delivery." href="/services/redevelopment" image={imgs.redevelopment} tone="blue" tag="02" />
