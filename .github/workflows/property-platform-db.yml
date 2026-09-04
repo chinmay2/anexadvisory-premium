@@ -14,23 +14,28 @@ on:
       - ".github/workflows/property-platform-db.yml"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  validate:
+  validate-and-sync:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install and synchronize lockfile
+        run: npm install
 
       - name: Validate Prisma schema
         run: npx prisma validate
@@ -38,12 +43,27 @@ jobs:
       - name: Generate Prisma client
         run: npx prisma generate
 
-      - name: Check database connection
+      - name: Commit synchronized lockfile
+        run: |
+          if git diff --quiet -- package-lock.json; then
+            echo "package-lock.json is already synchronized."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add package-lock.json
+            git commit -m "chore: synchronize npm lockfile"
+            git push
+          fi
+
+      - name: Test Neon database connection
         if: ${{ env.DATABASE_URL != '' }}
         run: |
-          printf 'SELECT 1;\n' | npx prisma db execute --stdin
+          printf 'SELECT current_database(), current_user;\n' | npx prisma db execute --stdin
 
-      - name: Check database connection configuration
+      - name: Apply database migrations
+        if: ${{ env.DATABASE_URL != '' && hashFiles('prisma/migrations/**') != '' }}
+        run: npx prisma migrate deploy
+
+      - name: Report database secret status
         if: ${{ env.DATABASE_URL == '' }}
-        run: |
-          echo "DATABASE_URL GitHub secret is not configured; schema validation and client generation passed."
+        run: echo "DATABASE_URL is not configured in GitHub Actions; cloud database migration is waiting for the deployment secret."
