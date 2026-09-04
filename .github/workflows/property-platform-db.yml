@@ -1,0 +1,49 @@
+name: Property Platform Database
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "prisma/**"
+      - "prisma.config.ts"
+      - "package.json"
+      - "package-lock.json"
+      - "lib/prisma.ts"
+      - "app/api/property-platform/**"
+      - ".github/workflows/property-platform-db.yml"
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate Prisma schema
+        run: npx prisma validate
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Check database connection
+        if: ${{ env.DATABASE_URL != '' }}
+        run: |
+          printf 'SELECT 1;\n' | npx prisma db execute --stdin
+
+      - name: Check database connection configuration
+        if: ${{ env.DATABASE_URL == '' }}
+        run: |
+          echo "DATABASE_URL GitHub secret is not configured; schema validation and client generation passed."
