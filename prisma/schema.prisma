@@ -1,0 +1,188 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PropertyType {
+  RESIDENTIAL
+  COMMERCIAL
+  MIXED_USE
+  PLOT
+  REDEVELOPMENT
+  OTHER
+}
+
+enum PropertyStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ImageType {
+  COVER
+  GALLERY
+  CONSTRUCTION
+  FLOOR_PLAN
+  DOCUMENT
+}
+
+enum EnquiryStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CLOSED
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+}
+
+model Property {
+  id                String              @id @default(cuid())
+  projectName       String              @map("project_name")
+  slug              String              @unique
+  propertyType      PropertyType        @map("property_type")
+  status            PropertyStatus      @default(DRAFT)
+  shortDescription  String?             @map("short_description")
+  description       String?
+
+  address           String?
+  locality          String?
+  city              String?
+  state             String?
+  country           String?             @default("India")
+  pincode           String?
+  latitude          Float?
+  longitude         Float?
+  placeId           String?             @map("place_id")
+
+  priceFrom         Decimal?            @map("price_from") @db.Decimal(18, 2)
+  priceTo           Decimal?            @map("price_to") @db.Decimal(18, 2)
+  currency          String              @default("INR")
+
+  reraNumber        String?             @map("rera_number")
+  possessionDate    DateTime?           @map("possession_date")
+  featured          Boolean             @default(false)
+  publishedAt       DateTime?           @map("published_at")
+
+  createdAt         DateTime            @default(now()) @map("created_at")
+  updatedAt         DateTime            @updatedAt @map("updated_at")
+
+  images            PropertyImage[]
+  amenities         PropertyAmenity[]
+  progress          ConstructionProgress[]
+  enquiries         Enquiry[]
+
+  @@index([status])
+  @@index([propertyType])
+  @@index([city, locality])
+  @@index([latitude, longitude])
+  @@index([featured, status])
+  @@map("properties")
+}
+
+model PropertyImage {
+  id          String    @id @default(cuid())
+  propertyId  String    @map("property_id")
+  type        ImageType @default(GALLERY)
+  storageKey  String    @map("storage_key")
+  url         String
+  altText     String?   @map("alt_text")
+  sortOrder   Int       @default(0) @map("sort_order")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  property    Property  @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId, type, sortOrder])
+  @@map("property_images")
+}
+
+model Amenity {
+  id          String            @id @default(cuid())
+  name        String            @unique
+  slug        String            @unique
+  createdAt   DateTime          @default(now()) @map("created_at")
+
+  properties  PropertyAmenity[]
+
+  @@map("amenities")
+}
+
+model PropertyAmenity {
+  propertyId  String   @map("property_id")
+  amenityId   String   @map("amenity_id")
+
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  amenity     Amenity  @relation(fields: [amenityId], references: [id], onDelete: Cascade)
+
+  @@id([propertyId, amenityId])
+  @@map("property_amenities")
+}
+
+model ConstructionProgress {
+  id          String          @id @default(cuid())
+  propertyId  String          @map("property_id")
+  title       String
+  description String?
+  progressPct Int?            @map("progress_pct")
+  status      String?
+  date        DateTime?
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  property    Property        @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  images      ProgressImage[]
+
+  @@index([propertyId, date])
+  @@map("construction_progress")
+}
+
+model ProgressImage {
+  id            String               @id @default(cuid())
+  progressId    String               @map("progress_id")
+  storageKey    String               @map("storage_key")
+  url           String
+  altText       String?              @map("alt_text")
+  sortOrder     Int                  @default(0) @map("sort_order")
+  createdAt     DateTime             @default(now()) @map("created_at")
+
+  progress      ConstructionProgress @relation(fields: [progressId], references: [id], onDelete: Cascade)
+
+  @@index([progressId, sortOrder])
+  @@map("progress_images")
+}
+
+model Enquiry {
+  id          String         @id @default(cuid())
+  propertyId  String?        @map("property_id")
+  name        String
+  email       String
+  phone       String?
+  message     String?
+  status      EnquiryStatus  @default(NEW)
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  property    Property?      @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+
+  @@index([propertyId, status])
+  @@index([createdAt])
+  @@map("enquiries")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  role         UserRole @default(EDITOR)
+  passwordHash String?  @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
