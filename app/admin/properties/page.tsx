@@ -5,12 +5,42 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
+type AdminPropertyRow = {
+  id: string;
+  projectName: string;
+  slug: string;
+  propertyType: string;
+  status: string;
+  city: string | null;
+  locality: string | null;
+  featured: boolean;
+  updatedAt: Date;
+};
+
 export default async function AdminPropertiesPage() {
   let user = null;
   try { user = await getAdminSession(); } catch { user = null; }
   if (!user) redirect("/admin/login");
-  let properties = [];
-  try { properties = await prisma.property.findMany({ orderBy: { updatedAt: "desc" }, select: { id: true, projectName: true, slug: true, propertyType: true, status: true, city: true, locality: true, featured: true, updatedAt: true } }); } catch { properties = []; }
+
+  let properties: AdminPropertyRow[] = [];
+  try {
+    properties = await prisma.property.findMany({
+      orderBy: { updatedAt: "desc" },
+      select: {
+        id: true,
+        projectName: true,
+        slug: true,
+        propertyType: true,
+        status: true,
+        city: true,
+        locality: true,
+        featured: true,
+        updatedAt: true,
+      },
+    });
+  } catch {
+    properties = [];
+  }
 
   return (
     <main style={{ minHeight: "100vh", background: "#f5f5f2", color: "#101820", padding: "100px clamp(20px,6vw,88px) 60px" }}>
