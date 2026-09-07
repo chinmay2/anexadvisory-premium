@@ -4,6 +4,19 @@ import { requireAdmin } from "@/lib/property-platform/auth";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
+  try {
+    await requireAdmin();
+    const { id } = await context.params;
+    const property = await prisma.property.findUnique({ where: { id }, include: { images: { orderBy: { sortOrder: "asc" } }, progress: { orderBy: { date: "desc" } } } });
+    if (!property) return Response.json({ error: "Property not found" }, { status: 404 });
+    return Response.json({ property });
+  } catch (error) {
+    console.error("Admin property fetch failed", error);
+    return Response.json({ error: "Unable to load property" }, { status: 500 });
+  }
+}
+
 export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
   try {
     await requireAdmin();
@@ -24,7 +37,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   }
 }
 
-export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(_request: Request, context: { params: Promise<{ id: string }> }) {
   try {
     await requireAdmin();
     const { id } = await context.params;
