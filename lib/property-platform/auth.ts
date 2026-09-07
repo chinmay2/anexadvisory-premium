@@ -21,7 +21,9 @@ function encodeSession(email: string) {
 
 function decodeSession(value: string) {
   const [payload, signature] = value.split(".");
-  if (!payload || !signature || !crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(sign(payload)))) return null;
+  if (!payload || !signature) return null;
+  const expected = sign(payload);
+  if (signature.length !== expected.length || !crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected))) return null;
   try {
     const parsed = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as { email?: string; exp?: number };
     return parsed.email && parsed.exp && parsed.exp > Date.now() ? parsed.email : null;
@@ -52,12 +54,11 @@ export async function authenticateAdmin(email: string, password: string) {
   if (!configuredEmail || !configuredPassword) return null;
   if (email.trim().toLowerCase() !== configuredEmail || password !== configuredPassword) return null;
 
-  const user = await prisma.user.upsert({
+  return prisma.user.upsert({
     where: { email: configuredEmail },
     update: { role: "ADMIN" },
     create: { email: configuredEmail, name: "ANEX Administrator", role: "ADMIN" },
   });
-  return user;
 }
 
 export async function createAdminSession(email: string) {
