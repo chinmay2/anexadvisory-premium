@@ -76,6 +76,13 @@ jobs:
         run: |
           printf 'SELECT current_database(), current_user;\n' | npx prisma db execute --stdin
 
+      - name: Repair failed duplicate initial migration
+        if: ${{ env.DATABASE_URL != '' && hashFiles('prisma/migrations/20260907130000_init/**') != '' }}
+        run: |
+          echo "Resolving the known duplicate migration 20260907130000_init as rolled back."
+          npx prisma migrate resolve --rolled-back 20260907130000_init || true
+          rm -rf prisma/migrations/20260907130000_init
+
       - name: Apply database migrations
         if: ${{ env.DATABASE_URL != '' }}
         run: npx prisma migrate deploy
