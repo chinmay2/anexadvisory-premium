@@ -4,6 +4,9 @@ import { requireAdmin } from "@/lib/property-platform/auth";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+function optionalNumber(value: unknown) { if (value === "" || value === null || value === undefined) return null; const n = Number(value); return Number.isFinite(n) ? n : null; }
+function optionalDate(value: unknown) { if (typeof value !== "string" || !value) return null; const date = new Date(`${value}T00:00:00.000Z`); return Number.isNaN(date.getTime()) ? null : date; }
+
 export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
   try {
     await requireAdmin();
@@ -23,10 +26,13 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
     const { id } = await context.params;
     const body = await request.json();
     const data: Record<string, unknown> = {};
-    const fields = ["projectName", "propertyType", "shortDescription", "description", "address", "locality", "city", "state", "pincode", "reraNumber"];
+    const fields = ["projectName", "propertyType", "shortDescription", "description", "address", "locality", "city", "state", "country", "pincode", "reraNumber", "currency"];
     for (const field of fields) if (typeof body[field] === "string") data[field] = body[field].trim();
-    if (body.latitude !== undefined) data.latitude = body.latitude === "" ? null : Number(body.latitude);
-    if (body.longitude !== undefined) data.longitude = body.longitude === "" ? null : Number(body.longitude);
+    if (body.latitude !== undefined) data.latitude = optionalNumber(body.latitude);
+    if (body.longitude !== undefined) data.longitude = optionalNumber(body.longitude);
+    if (body.priceFrom !== undefined) data.priceFrom = optionalNumber(body.priceFrom);
+    if (body.priceTo !== undefined) data.priceTo = optionalNumber(body.priceTo);
+    if (body.possessionDate !== undefined) data.possessionDate = optionalDate(body.possessionDate);
     if (["DRAFT", "PUBLISHED", "ARCHIVED"].includes(body.status)) { data.status = body.status; data.publishedAt = body.status === "PUBLISHED" ? new Date() : null; }
     if (typeof body.featured === "boolean") data.featured = body.featured;
     const property = await prisma.property.update({ where: { id }, data: data as never });
