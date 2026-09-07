@@ -19,8 +19,8 @@ export default async function AdminPage() {
         </div>
         <section style={{ marginTop: 42, display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 16 }}>
           <Link href="/admin/properties" style={{ background: "#101820", color: "#fff", borderRadius: 14, padding: 24, textDecoration: "none" }}><strong style={{ fontSize: 20 }}>Properties</strong><p style={{ color: "#d5d9dc", lineHeight: 1.5 }}>Create, edit, publish and archive ANEX property listings.</p></Link>
-          <div style={{ background: "#fff", border: "1px solid #deded8", borderRadius: 14, padding: 24 }}><strong style={{ fontSize: 20 }}>Images</strong><p style={{ color: "#686864", lineHeight: 1.5 }}>R2-backed media management will be connected in the next phase.</p></div>
-          <div style={{ background: "#fff", border: "1px solid #deded8", borderRadius: 14, padding: 24 }}><strong style={{ fontSize: 20 }}>Enquiries</strong><p style={{ color: "#686864", lineHeight: 1.5 }}>Enquiry management is prepared in the database for the public form phase.</p></div>
+          <div style={{ background: "#fff", border: "1px solid #deded8", borderRadius: 14, padding: 24 }}><strong style={{ fontSize: 20 }}>Images</strong><p style={{ color: "#686864", lineHeight: 1.5 }}>R2-backed media management is available from each property.</p></div>
+          <Link href="/admin/enquiries" style={{ background: "#fff", border: "1px solid #deded8", borderRadius: 14, padding: 24, textDecoration: "none", color: "#101820" }}><strong style={{ fontSize: 20 }}>Enquiries</strong><p style={{ color: "#686864", lineHeight: 1.5 }}>Review and manage enquiries received from published properties.</p></Link>
         </section>
       </div>
     </main>
