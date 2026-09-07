@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 
@@ -35,6 +36,7 @@ export default async function PropertyDetailPage({
           <h1>{property.projectName}</h1>
           {property.shortDescription && <p className="property-detail-intro">{property.shortDescription}</p>}
           {location && <p className="property-detail-location">{location}</p>}
+          <Link href={`/properties/${property.slug}/enquire`} className="property-detail-enquire">Enquire about this property <span>→</span></Link>
         </div>
         {cover ? (
           <div className="property-detail-cover">
@@ -85,6 +87,7 @@ export default async function PropertyDetailPage({
             {property.reraNumber && <div className="property-detail-stat"><span>RERA</span><strong>{property.reraNumber}</strong></div>}
             {property.possessionDate && <div className="property-detail-stat"><span>Possession</span><strong>{property.possessionDate.toLocaleDateString("en-IN", { month: "long", year: "numeric" })}</strong></div>}
             {property.address && <div className="property-detail-stat"><span>Address</span><strong>{property.address}</strong></div>}
+            <Link href={`/properties/${property.slug}/enquire`} className="property-detail-card-button">Send an enquiry</Link>
           </div>
         </aside>
       </section>
@@ -92,12 +95,15 @@ export default async function PropertyDetailPage({
       <style>{`
         .property-detail-page{min-height:100vh;background:#f7f7f5;color:#101820}
         .property-detail-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(420px,48vw);min-height:610px;background:#101820;color:#fff}
-        .property-detail-copy{padding:130px clamp(28px,7vw,110px) 70px;display:flex;flex-direction:column;justify-content:center}
+        .property-detail-copy{padding:130px clamp(28px,7vw,110px) 70px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
         .property-detail-kicker,.property-detail-label{margin:0 0 16px;color:#c7a86b;font-size:11px;font-weight:800;letter-spacing:.18em}
         .property-detail-type{margin:0 0 12px;color:#aeb8bf;font-size:12px;letter-spacing:.12em}
         .property-detail-copy h1{margin:0;max-width:760px;font-size:clamp(48px,7vw,92px);line-height:.96;letter-spacing:-.045em;font-weight:600}
         .property-detail-intro{max-width:650px;margin:26px 0 0;color:#d7dde1;font-size:18px;line-height:1.65}
         .property-detail-location{margin:18px 0 0;color:#c7a86b;font-size:14px}
+        .property-detail-enquire,.property-detail-card-button{display:inline-flex;align-items:center;gap:18px;text-decoration:none;font-weight:700}
+        .property-detail-enquire{margin-top:30px;padding:14px 18px;border:1px solid #9a7b3f;color:#fff;font-size:13px}
+        .property-detail-enquire span{color:#c7a86b;font-size:18px}
         .property-detail-cover{min-height:610px;background:#252c31;overflow:hidden}
         .property-detail-cover img{width:100%;height:100%;min-height:610px;display:block;object-fit:cover}
         .property-detail-cover-empty{display:grid;place-items:center;color:#c7a86b;font-size:24px;letter-spacing:.25em}
@@ -114,6 +120,7 @@ export default async function PropertyDetailPage({
         .property-detail-stat{padding:18px 0;border-top:1px solid #e5e2dc;display:flex;flex-direction:column;gap:7px}
         .property-detail-stat span{color:#7a858d;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
         .property-detail-stat strong{font-size:15px;line-height:1.5;font-weight:600;word-break:break-word}
+        .property-detail-card-button{margin-top:14px;background:#101820;color:#fff;padding:14px 16px;font-size:13px}
         @media(max-width:900px){.property-detail-hero{grid-template-columns:1fr}.property-detail-cover,.property-detail-cover img{min-height:420px}.property-detail-copy{padding-top:110px}.property-detail-body{grid-template-columns:1fr;gap:0}.property-detail-card{position:static}.property-detail-gallery{grid-template-columns:1fr}}
       `}</style>
     </main>
