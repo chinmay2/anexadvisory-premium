@@ -23,8 +23,11 @@ function MapSizeFix() {
     const firstFrame = requestAnimationFrame(refresh);
     const secondFrame = requestAnimationFrame(refresh);
     window.addEventListener("resize", refresh);
+
+    const parent = map.getContainer().parentElement;
     const observer = new ResizeObserver(refresh);
-    if (map.getContainer().parentElement) observer.observe(map.getContainer().parentElement);
+    if (parent) observer.observe(parent);
+
     return () => {
       cancelAnimationFrame(firstFrame);
       cancelAnimationFrame(secondFrame);
