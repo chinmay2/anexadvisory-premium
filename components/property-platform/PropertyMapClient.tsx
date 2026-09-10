@@ -42,7 +42,13 @@ function MapSizeFix() {
 export default function PropertyMapClient({ properties }: { properties: Property[] }) {
   return (
     <div className="property-map-viewport">
-      <MapContainer center={[19.076, 72.8777]} zoom={10} scrollWheelZoom className="property-platform-map">
+      <MapContainer
+        center={[19.076, 72.8777]}
+        zoom={10}
+        scrollWheelZoom
+        className="property-platform-map"
+        style={{ height: "720px", minHeight: "720px", width: "100%" }}
+      >
         <TileLayer attribution='&copy; OpenStreetMap contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <MapSizeFix />
         {properties.filter((p) => Number.isFinite(p.latitude) && Number.isFinite(p.longitude)).map((p) => (
@@ -57,11 +63,14 @@ export default function PropertyMapClient({ properties }: { properties: Property
       </MapContainer>
       <style>{`
         .property-map-viewport{height:720px;width:100%;overflow:hidden;background:#dfe4df}
-        .property-platform-map{height:100%;width:100%;min-height:0}
-        .property-platform-map .leaflet-container{height:100%;width:100%}
+        .property-platform-map{height:720px!important;min-height:720px!important;width:100%!important}
+        .property-platform-map.leaflet-container{height:720px!important;min-height:720px!important;width:100%!important}
         .anex-property-marker-wrap{background:transparent!important;border:0!important}
         .anex-property-marker{width:34px;height:34px;display:grid;place-items:center;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#101820;border:1px solid #d4a15a;box-shadow:0 8px 18px rgba(8,14,19,.3);color:#d4a15a;font:400 15px Georgia,serif;line-height:34px;text-align:center}
-        @media(max-width:900px){.property-map-viewport{height:520px}}
+        @media(max-width:900px){
+          .property-map-viewport{height:520px}
+          .property-platform-map,.property-platform-map.leaflet-container{height:520px!important;min-height:520px!important}
+        }
       `}</style>
     </div>
   );
